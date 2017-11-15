@@ -25,6 +25,27 @@ public class Set {
         return copy;
     }
 
+    //gets the most frequent class label
+    //assumes class label is in the last column
+    public String getClassLabelFrequent()
+    {
+        int classIndex = table.get(0).size() - 1;
+        int pos=0;
+        int neg=0;
+        for (ArrayList<String> current: this.table)
+        {
+            if(current.get(classIndex).equalsIgnoreCase("yes"))
+                pos++;
+            if(current.get(classIndex).equalsIgnoreCase("no"))
+                neg++;
+        }
+
+        if(pos>neg || pos==neg)
+            return "yes";
+        else
+            return "no";
+    }
+
     public void addFile(File file) throws Exception {
         BufferedReader br = new BufferedReader(new FileReader(file));
         Scanner scanner;

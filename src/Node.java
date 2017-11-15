@@ -69,6 +69,8 @@ public class Node {
         this.label = label;
     }
 
+    public String getLabel () { return this.label;}
+
 
     public void print() {
 

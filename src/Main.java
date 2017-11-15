@@ -31,7 +31,7 @@ public class Main {
         tuple.add("no");
         tuple.add("fair");
         String decision = decisionTree.getClass(tuple, attributeList);
-        System.out.println("buys: "+ decision);
+        System.out.println("Test Result: buys: "+ decision);
     }
 
 }

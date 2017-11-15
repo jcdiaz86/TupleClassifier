@@ -15,17 +15,23 @@ public class Tree {
     }
 
     public void partitionTree(int classIndex) {
+
+        //gets the best splitting attribute
         Attribute splitting = attributeSelection(attrList, root.getPayload(), classIndex);
+
+        //label the root node with the best splitting attribute
         root.setLabel(splitting.getName());
+
+        //for each of the possible values of the splitting attribute
         for (Quartet currentQuartet : splitting.getAllowedValues()) {
             String value = (String) currentQuartet.getValue0();
             Set subset = new Set();
+            //check if a tuple has the splitting attribute value
             for (int i = 0; i < root.getPayload().getSize(); i++) {
                 ArrayList<String> tuple = root.getPayload().getRow(i);
                 for (int j = 0; j < tuple.size(); j++) {
                     if (tuple.get(j).equalsIgnoreCase(value)) {
-                        tuple.remove(j);
-                        subset.addTuple(tuple);
+                        subset.addTuple(tuple); //if it does, move it to a subset
                         break;
                     }
                 }
@@ -33,7 +39,6 @@ public class Tree {
             Node node = new Node(subset);
             node.setLabel(value);
             root.addChild(node, root);
-
         }
         root.getPayload().clear();
     }
@@ -50,8 +55,29 @@ public class Tree {
         }
     }
 
-    public String getClass(ArrayList<String> tuple, ArrayList<Attribute> attributeList)
-    {
+    public String getClass(ArrayList<String> tuple, ArrayList<Attribute> attributeList) {
+        String matchingAttribute;
+        for(Attribute attrCurrent: attributeList)
+        {
+            //if attribute name matches root's label
+            if( (matchingAttribute=attrCurrent.getName()).equalsIgnoreCase(root.getLabel()))
+            {
+                //check each child of root
+                for(Node nodeCurrent: root.getChildren())
+                {
+                    //for each value in the tuple
+                    for (String currentString: tuple)
+                    {
+                        //if one matches the label of the child node
+                        if ( currentString.equals(nodeCurrent.getLabel()) )
+                        {
+                            //return the class label that appears the most in the node;
+                            return nodeCurrent.getPayload().getClassLabelFrequent();
+                        }
+                    }
+                }
+            }
+        }
         return null;
     }
 
@@ -72,7 +98,6 @@ public class Tree {
         //it doesn't work because there are to columns with either value.
         return attributeList.get(index);
     }
-
 }
 
 
