@@ -21,17 +21,13 @@ public class Main {
         //Crete tree and partition by attribute
         Tree decisionTree = new Tree(trainingSet, attributeList);
         decisionTree.partitionTree(5); //classIndex is the index of the column that has the label in the training set
-        decisionTree.printChildren();
+        decisionTree.printTree();
 
         //test the decision tree
         ArrayList<String> tuple = new ArrayList<String>();
-        tuple.add("15");
-        tuple.add("middle_aged");
-        tuple.add("low");
-        tuple.add("no");
-        tuple.add("fair");
+        tuple.add("15"); tuple.add("middle_aged"); tuple.add("low"); tuple.add("no"); tuple.add("fair");
+        Set myset = new Set(); myset.addTuple(tuple); myset.print(); //did it only for printing
         String decision = decisionTree.getClass(tuple, attributeList);
-        System.out.println("buys: "+ decision);
+        System.out.println("Test Result -  buys: "+ decision);
     }
-
 }

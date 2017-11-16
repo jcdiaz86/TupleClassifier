@@ -1,7 +1,4 @@
-import org.javatuples.Pair;
 import org.javatuples.Quartet;
-import org.javatuples.Tuple;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -10,16 +7,27 @@ import java.util.Scanner;
  */
 public class Attribute {
 
-    private String name;
-    //1 quartet for possible discrete values
-    //contains name, total tuples, total yes tuples, total no tuples
-    private ArrayList<Quartet> allowedValues;
-    private Integer columnIndex;
-    private double info;
+    private String name; //attribute name (E.g age)
+    private ArrayList<Quartet> allowedValues; //allowed values for age (E.g. youth, middle_aged, senior)
+    private Integer columnIndex; //in what column of a set are the attribute values
+    private double info; //Entropy for the attribute
 
+    /**
+     * Creates an attribute
+     * @param name the name of the attribute (E.g age)
+     * @param colIndex //in what column of a set are the attribute values
+     * @param valuesList //allowed values for age (E.g. youth, middle_aged, senior)
+     */
     public Attribute(String name, Integer colIndex, String valuesList) {
         this.name = name;
         columnIndex = colIndex;
+
+        //Places each possible value in a quartet
+        //Each quartet has space for the following:
+        //1) The name of the possible value (eg for attribute age one value is senior)
+        //2) the total number of times the value appears in a set
+        //3) the total number of times the value appears in a set and the tuple is labeled yes
+        //4) the total number of times the value appears in a set and the tuple is labeled no
         allowedValues = new ArrayList<Quartet>();
         Scanner scanner = new Scanner(valuesList);
         while (scanner.hasNext()) {
@@ -29,24 +37,45 @@ public class Attribute {
         info = -1;
     }
 
+    /**
+     * Gets name of the attribute
+     * @return String name
+     */
     public String getName(){
         return this.name;
     }
 
+    /**
+     * Returns the Entropy for the attribute
+     * Must be called after the method CollectStats()
+     * @return Entropy as a double
+     */
     public double getInfo() {
         return this.info;
     }
 
+    /**
+     * Returns the list of allowed values
+     * @return list of allowed values
+     */
     public ArrayList<Quartet> getAllowedValues(){
+
         return this.allowedValues;
     }
 
-
+    /**
+     * Collects the following statistics for each possible attribute value
+     * (1) the total number of times the value appears in a set
+     * (2) the total number of times the value appears in a set and the tuple is labeled yes
+     * (3) the total number of times the value appears in a set and the tuple is labeled no
+     *
+     * @param training the training set from which the statistics are derived
+     * @param classIndex the column of the set that has the class label
+     */
     public void collectStats(Set training, int classIndex) {
         for (int i = 0; i < allowedValues.size(); i++) {
             String allowedValue = (String) allowedValues.get(i).getValue0();
             Integer count = (Integer) allowedValues.get(i).getValue1();
-
             ArrayList<String> tableColumn = training.getCol(columnIndex);
             String currentString;
             int pos = 0;
@@ -67,7 +96,12 @@ public class Attribute {
         setInfo(training);
     }
 
-    //this works if there are only 2 class labels
+    /**
+     * Helper method for the collectStats(method)
+     * Entropy is calculate here for each attribute
+     * Note: this method assumes there are only two class label values
+     * @param training the training set
+     */
     private void setInfo(Set training) {
         double total = 0;
         double setSize = training.getSize();
@@ -83,7 +117,14 @@ public class Attribute {
             this.info = total;
     }
 
-    public void print() {
+    /**
+     * Print the statistic for each attribute value
+     * 1) The name of the possible value (eg for attribute age one value is senior)
+     * 2) the total number of times the value appears in a set
+     * 3) the total number of times the value appears in a set and the tuple is labeled yes
+     * 4) the total number of times the value appears in a set and the tuple is labeled no
+     */
+    public void printInfo() {
         System.out.println(name);
         for (Quartet current : allowedValues) {
             System.out.println("value: " + current.getValue(0) + "\t\t"
