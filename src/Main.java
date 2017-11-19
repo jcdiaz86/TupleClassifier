@@ -1,6 +1,6 @@
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws Exception{
@@ -24,10 +24,54 @@ public class Main {
         decisionTree.printTree();
 
         //test the decision tree
-        ArrayList<String> tuple = new ArrayList<String>();
-        tuple.add("15"); tuple.add("middle_aged"); tuple.add("low"); tuple.add("no"); tuple.add("fair");
-        Set myset = new Set(); myset.addTuple(tuple); myset.print(); //did it only for printing
-        String decision = decisionTree.getClass(tuple, attributeList);
+        String decision = decisionTree.getClass(getUserInput(), attributeList);
         System.out.println("Test Result -  buys: "+ decision);
+    }
+
+    public static ArrayList<String> getUserInput(){
+
+        ArrayList<String> tuple = new ArrayList<String>();
+        String RID = "";
+        String age = "";
+        String income = "";
+        String student = "";
+        String credit = "";
+
+        Scanner scan = new Scanner(System.in);
+
+        System.out.println("Add a tuple to test");
+        System.out.println("Note that implementation of decision tree is only to 1 level");
+        System.out.println("Class label returned is based on majority voting\n");
+        System.out.println("Enter the age (Should be middle_aged, youth, or senior):");
+        while(!(age.equals("middle_aged")) && !(age.equals("youth")) && !(age.equals("senior")))
+        {
+            age = scan.nextLine();
+        }
+        tuple.add(age);
+
+        System.out.println("Enter the income (Should be low, medium, high):");
+        while(!(income.equals("low")) && !(income.equals("medium")) && !(income.equals("high")))
+        {
+            income = scan.nextLine();
+        }
+        tuple.add(income);
+
+        System.out.println("Enter if they are a student (Should be yes, or no):");
+        while(!(student.equals("yes")) && !(student.equals("no")))
+        {
+            student = scan.nextLine();
+        }
+        tuple.add(student);
+
+        System.out.println("Enter their credit rating (Should be fair, or excellent):");
+        while(!(credit.equals("excellent")) && !(credit.equals("fair")))
+        {
+            credit = scan.nextLine();
+        }
+        tuple.add(credit);
+
+        Set myset = new Set(); myset.addTuple(tuple); myset.print(); //did it only for printing
+
+        return tuple;
     }
 }

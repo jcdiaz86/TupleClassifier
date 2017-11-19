@@ -96,7 +96,7 @@ public class Tree {
                     for (String currentString: tuple)
                     {
                         //if a children of root has the same label as the tuple
-                        if ( currentString.equals(nodeCurrent.getLabel()) )
+                        if ( currentString.equalsIgnoreCase(nodeCurrent.getLabel()) )
                         {
                             //return the class label that appears the most in the set of the child node;
                             return nodeCurrent.getPayload().getClassLabelFrequent();
