@@ -1,6 +1,3 @@
-import org.javatuples.Quartet;
-
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**

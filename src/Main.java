@@ -16,11 +16,10 @@ public class Main {
         attributeList.add(new Attribute("income", 2, "low medium high"));
         attributeList.add(new Attribute("student", 3, "no yes"));
         attributeList.add(new Attribute("credit", 4, "fair excellent"));
-        //attributeList.add(new Attribute("buys", 5, "no yes"));
 
         //Crete tree and partition by attribute
         Tree decisionTree = new Tree(trainingSet, attributeList);
-        decisionTree.partitionTree(5); //classIndex is the index of the column that has the label in the training set
+        decisionTree.partitionTree(5);
         decisionTree.printTree();
 
         //test the decision tree
